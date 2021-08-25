@@ -8,11 +8,17 @@ module.exports = {
 
   async newCard ( req, res ) {
     const inputs = req.allParams();
+
+    let result =await Card.findOne({title:inputs.title})
+    if(result){
+      return res.json('title exist')
+    }
     if ( typeof inputs.id !== 'undefined' ) {
       const cards = await Card.updateOne({id:inputs.id}).set({...inputs});
 
       return res.json(cards)
   } else{
+
       const cards = await Card.create({...inputs}).fetch();
       return res.json(cards)
     }

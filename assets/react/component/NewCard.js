@@ -5,11 +5,11 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { postImage } from '../component/utils/ajax';
-
+import { toast } from 'react-toastify';
 /** NewCard functional component */
 function NewCard ( props ) {
   const [show, setShow] = useState(true);
-  const [baseImage, setBaseImage] = useState('');
+  const [exist, setExist] = useState(false);
 
   const [initialValues, setInitialValues] = useState({
     title: '',
@@ -29,11 +29,14 @@ function NewCard ( props ) {
     enableReinitialize:true,
     validationSchema,
     onSubmit ( values ) {
-      console.log(values);
       $.post('/card/new', {...values}).then(response => {
-        props.onModalClose();
-        props.getCardList();
-        toastr.success(response.message);
+        if(response==="title exist"){
+          setExist(true)
+
+        }else{
+          props.onModalClose();
+          props.getCardList();
+        }
       });
     }
   });
@@ -46,7 +49,6 @@ function NewCard ( props ) {
   const uploadImage = async ( e ) => {
     const file = e.target.files[0];
     const base64 = await convertBase64(file);
-    setBaseImage(base64);
     setFieldValue('image', base64, true);
   };
 
@@ -67,8 +69,12 @@ function NewCard ( props ) {
   return (
     <div>
       <Modal show={show} onHide={props.onModalClose}>
+        {exist && <div className="alert alert-warning" role="alert">
+          title already exist
+        </div>}
         <Modal.Header closeButton>
           <Modal.Title>Add New Card</Modal.Title>
+
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} className="container" style={{width: '85%'}}>

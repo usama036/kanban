@@ -19,7 +19,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'GET /': {controller: 'HomepageController', action: 'index'},
+  'GET /kanban': {controller: 'HomepageController', action: 'index'},
   'POST /category/new': {controller: 'Category', action: 'new'},
   'GET /category/list': {controller: 'Category', action: 'list'},
 
@@ -28,6 +28,8 @@ module.exports.routes = {
   'POST /category/update': {controller: 'Card', action: 'update'},
   'POST /card/remove': {controller: 'Card', action: 'remove'},
 
+  'POST /user/new': {controller: 'User', action: 'newUser'},
+  'GET /': {controller: 'Signup', action: 'index'},
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

@@ -32,7 +32,6 @@ function HomePage () {
   const deleteCard=(id)=>{
     $.post('/card/remove',{id}).then(res=>getCardList())
   }
-
   return (
     <>
       <main className="content">
@@ -43,7 +42,7 @@ function HomePage () {
           <h1 className="h3 mb-3">Kanban Board</h1>
           <div className="row">
             {(list || []).map(category=>
-              <div className="col-12 col-lg-6 col-xl-3">
+              <div className="col-12 col-lg-6 col-xl-3" key={category.id}>
                 <div className="card card-border-primary">
                   <div className="card-header">
                     <div className="card-actions float-right">
@@ -72,7 +71,7 @@ function HomePage () {
                   <div className="card-body">
                     {cardslist.filter(card=>
                       card.category===category.type).map(d=>
-                      <div className="card mb-3 bg-light">
+                      <div className="card mb-3 bg-light" key={d.id+10} >
                         <div className="card-body p-3">
                           <div className="float-right mr-n2">
                             <label className="custom-control custom-checkbox">

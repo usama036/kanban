@@ -35,23 +35,17 @@ function NewCard ( props ) {
     onSubmit ( values ) {
       console.log(values);
       $.post('/user/new', {...values}).then(response => {
-        props.onModalClose();
-        props.getCardList();
-        toastr.success(response.message);
+
+
       });
     }
   });
-  useEffect(() => {
-    if(props.data){
-      setInitialValues({...props.data})
-    }
-  }, []);
 
   return (
     <div>
       <Modal show={show} onHide={props.onModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add New Card</Modal.Title>
+          <Modal.Title>Add New User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} className="container" style={{width: '85%'}}>
