@@ -6,6 +6,7 @@ import   '../css/style.css'
 //components
 import NewCategory from './NewCategory';
 import NewCard from './NewCard';
+import NewUser from './NewUser';
 /** HomePage functional component */
 function HomePage () {
   const [show, setShow] = useState(false);
@@ -13,6 +14,7 @@ function HomePage () {
   const [cardslist, setCardsList] = useState([]);
   const [editCard ,setEditCard] =useState({show:false,data:null});
   const [cardModal, setCardModal] = useState({show:false,category:null});
+  const [userCard,setUserCard] = useState(false)
   useEffect(()=>{
    getCategories()
     getCardList()
@@ -27,11 +29,17 @@ function HomePage () {
   const updateCategory=(id,category)=>{
     $.post('/category/update',{id,category}).then(res=>getCardList())
   }
+  const deleteCard=(id)=>{
+    $.post('/card/remove',{id}).then(res=>getCardList())
+  }
+
   return (
     <>
       <main className="content">
         <div className="container p-0">
-<Button varient="primary" className="float-right" onClick={()=>setShow(true)}>Add New</Button>
+          <Button varient="primary" className="float-right btn-outline-success" onClick={()=>setShow(true)}>New Category</Button>
+          <Button varient="primary" className="float-right btn-outline-primary ml-2" onClick={()=>setUserCard(true)}>New User</Button>
+
           <h1 className="h3 mb-3">Kanban Board</h1>
           <div className="row">
             {(list || []).map(category=>
@@ -78,6 +86,8 @@ function HomePage () {
                             <img src={d.image} style={{width:32 , height:32}} className="rounded-circle" alt="Avatar"/>
                           </div>
                           <a className="btn btn-outline-primary btn-sm" href="#" onClick={()=>setEditCard({show:true,data:d})}>edit</a>
+                          <a className="btn btn-outline-danger btn-sm ml-2" href="#" onClick={()=>deleteCard(d.id)}>Remove</a>
+
                         </div>
                       </div>
                     )}
@@ -109,6 +119,12 @@ function HomePage () {
           <NewCard
             data={editCard.data}
             onModalClose={() => setEditCard({show: false,data:null})}
+            getCardList={()=>getCardList()}
+          />
+          }
+          {userCard &&
+          <NewUser
+            onModalClose={() => setUserCard(false)}
             getCardList={()=>getCardList()}
           />
           }
