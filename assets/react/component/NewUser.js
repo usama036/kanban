@@ -33,10 +33,8 @@ function NewCard ( props ) {
     enableReinitialize:true,
     validationSchema,
     onSubmit ( values ) {
-      console.log(values);
       $.post('/user/new', {...values}).then(response => {
-
-
+        props.onModalClose()
       });
     }
   });
