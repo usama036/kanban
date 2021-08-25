@@ -20,7 +20,13 @@ module.exports.routes = {
   ***************************************************************************/
 
   'GET /': {controller: 'HomepageController', action: 'index'},
+  'POST /category/new': {controller: 'Category', action: 'new'},
+  'GET /category/list': {controller: 'Category', action: 'list'},
+  'POST /file/upload': {controller: 'Card', action: 'upload'},
 
+  'POST /card/new': {controller: 'Card', action: 'newCard'},
+  'GET /card/list': {controller: 'Card', action: 'list'},
+  'POST /category/update': {controller: 'Card', action: 'update'},
 
   /***************************************************************************
   *                                                                          *
