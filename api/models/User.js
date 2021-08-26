@@ -1,35 +1,90 @@
 /**
- * User.js
+ * User
  *
- * @description :: A model definition represents a database table/collection.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
+ * @module      :: Model
+ * @description :: Model to maintain application's users who can log in to this application.
  */
 
-module.exports = {
 
+const moment = require('moment');
+
+
+module.exports = {
   attributes: {
+
+    name: {
+      type: 'string',
+      required: false,
+      maxLength: 120
+    },
+
+    phoneNo: {
+      type: 'string',
+      unique: true,
+      maxLength: 15,
+      required: true,
+      columnName: 'phone_number',
+      columnType: 'varchar(15)'
+    },
+
+
+
+    seen: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    verified: {
+      type: 'boolean',
+      defaultsTo: true
+    },
 
     email: {
       type: 'string',
-      columnType: 'varchar(255)',
-      allowNull: false,
+      unique: true,
+      isEmail: true,
+      allowNull: true,
+      maxLength: 200
     },
+
     password: {
       type: 'string',
-      columnType: 'varchar(255)',
-      allowNull: false,
+      protect: true,
+      allowNull: true
     },
-    checkbox: {
-      type:'boolean',
-      defaultsTo: false,
-    },
-    role: {
+
+    userType: {
       type: 'string',
-      columnType:'varchar(255)',
-      isIn: ['user', 'admin'],
-      allowNull: false,
-    }
+      maxLength: 15,
+      columnName: 'user_type',
+      columnType: 'varchar(15)',
+      isIn: ['admin', 'support', 'customer', 'technician']
+    },
+    userRole: {
+      type: 'string',
+      maxLength: 15,
+      columnName: 'user_role',
+      columnType: 'varchar(15)',
+
+    },
+
+    updatedAt: {
+      type: 'ref',
+      columnType: 'datetime',
+      columnName: 'updated_at',
+      autoUpdatedAt: true
+    },
+
+    createdAt: {
+      type: 'ref',
+      columnType: 'datetime',
+      columnName: 'created_at',
+      autoCreatedAt: true
+    },
+
+
+
   },
 
-};
 
+};

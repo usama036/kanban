@@ -29,7 +29,11 @@ module.exports.routes = {
   'POST /card/remove': {controller: 'Card', action: 'remove'},
 
   'POST /user/new': {controller: 'User', action: 'newUser'},
-  'GET /': {controller: 'Signup', action: 'index'},
+  'GET /test': {controller: 'Signup', action: 'index'},
+  'GET /': {controller: 'AuthController', action: 'dashboard'},
+  'GET /login': {controller: 'AuthController', action: 'login'},
+  'POST /login': {controller: 'AuthController', action: 'authenticate'},
+  'GET /logout': {controller: 'AuthController', action: 'logout'},
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

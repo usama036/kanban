@@ -17,24 +17,27 @@ function NewCard ( props ) {
   const [show, setShow] = useState(true);
 
   const [initialValues, setInitialValues] = useState({
+    phoneNo: '',
     email: '',
     password: '',
-    checkbox: false,
-    role: 'user'
+    verified: true,
+    seen: false,
+    userRole: 'user',
   });
   const validationSchema = Yup.object({
-      email: Yup.string().required('Required'),
-      password: Yup.string().required('Required'),
-      checkbox: Yup.boolean().required('Required'),
-      role: Yup.string().required('Required'),
+    phoneNo: Yup.string().required('Required'),
+    email: Yup.string().required('Required'),
+    password: Yup.string().required('Required'),
+    seen: Yup.boolean().required('Required'),
+    userRole: Yup.string().required('Required'),
   });
   const {handleSubmit, handleChange, values, errors, setFieldValue} = useFormik({
     initialValues,
-    enableReinitialize:true,
+    enableReinitialize: true,
     validationSchema,
     onSubmit ( values ) {
       $.post('/user/new', {...values}).then(response => {
-        props.onModalClose()
+        props.onModalClose();
       });
     }
   });
@@ -47,6 +50,12 @@ function NewCard ( props ) {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit} className="container" style={{width: '85%'}}>
+            <Form.Group>
+              <Form.Label>phoneNo</Form.Label>
+              <Form.Control type="text" placeholder="enter this format 3012055881"
+                name="phoneNo" value={values.phoneNo} onChange={handleChange}/>
+              <p className="text-danger">{errors.phoneNo ? errors.phoneNo : null}</p>
+            </Form.Group>
             <Form.Group>
               <Form.Label>Email</Form.Label>
               <Form.Control type="text" placeholder="Enter email"
@@ -63,8 +72,8 @@ function NewCard ( props ) {
 
             <Form.Group>
               <Form.Label>Allow Access</Form.Label>
-              <input className="checkbox ml-4" type="checkbox" id="vehicle1" name="checkbox" onChange={handleChange} checked={values.checkbox} />
-              <p className="text-danger">{errors.checkbox ? errors.checkbox : null}</p>
+              <input className="checkbox ml-4" type="checkbox" name="seen" onChange={handleChange} checked={values.seen}/>
+              <p className="text-danger">{errors.seen ? errors.seen : null}</p>
             </Form.Group>
 
             <Button variant="primary" type="submit">

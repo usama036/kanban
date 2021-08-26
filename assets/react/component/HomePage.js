@@ -36,8 +36,11 @@ function HomePage () {
     <>
       <main className="content">
         <div className="container p-0">
-          <Button varient="primary" className="float-right btn-outline-success" onClick={()=>setShow(true)}>New Category</Button>
-          <Button varient="primary" className="float-right btn-outline-primary ml-2" onClick={()=>setUserCard(true)}>New User</Button>
+          <Button varient="primary" size="sm" className="float-right btn-outline-success" onClick={()=>setShow(true)}>New Category</Button>
+          <button  className="float-right btn-outline-primary sm ml-2"
+            data-toggle="tooltip" data-placement="top" title={SAILS_LOCALS.userData.userRole!=="admin" && 'you are not authorize' }
+            disabled={SAILS_LOCALS.userData.userRole==="admin" ? false:true } onClick={()=>setUserCard(true)}>New User</button>
+          <a className="btn btn-outline-danger btn-sm ml-2 float-right" href="/logout" >logout</a>
 
           <h1 className="h3 mb-3">Kanban Board</h1>
           <div className="row">
@@ -56,11 +59,11 @@ function HomePage () {
                           </svg>
                         </a>
 
-                        <div className="dropdown-menu dropdown-menu-right">
-                          <a className="dropdown-item" href="#">Action</a>
-                          <a className="dropdown-item" href="#">Another action</a>
-                          <a className="dropdown-item" href="#">Something else here</a>
-                        </div>
+                        {/*<div className="dropdown-menu dropdown-menu-right">*/}
+                        {/*  <a className="dropdown-item" href="#">Action</a>*/}
+                        {/*  <a className="dropdown-item" href="#">Another action</a>*/}
+                        {/*  <a className="dropdown-item" href="#">Something else here</a>*/}
+                        {/*</div>*/}
                       </div>
                     </div>
                     <h5 className="card-title">{category.type}</h5>
@@ -84,8 +87,14 @@ function HomePage () {
                           <div className="float-right mt-n1">
                             <img src={d.image} style={{width:32 , height:32}} className="rounded-circle" alt="Avatar"/>
                           </div>
-                          <a className="btn btn-outline-primary btn-sm" href="#" onClick={()=>setEditCard({show:true,data:d})}>edit</a>
-                          <a className="btn btn-outline-danger btn-sm ml-2" href="#" onClick={()=>deleteCard(d.id)}>Remove</a>
+                          {SAILS_LOCALS.userData.seen &&
+                            <div>
+                            <a className="btn btn-outline-primary btn-sm" href="#" onClick={()=>setEditCard({show:true,data:d})}>edit</a>
+
+                            <a className="btn btn-outline-danger btn-sm ml-2" href="#" onClick={()=>deleteCard(d.id)}>Remove</a>
+                              </div>
+                              }
+
 
                         </div>
                       </div>

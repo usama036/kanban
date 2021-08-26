@@ -247,17 +247,24 @@ function HomePage() {
     className: "container p-0"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
     varient: "primary",
+    size: "sm",
     className: "float-right btn-outline-success",
     onClick: function onClick() {
       return setShow(true);
     }
-  }, "New Category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
-    varient: "primary",
-    className: "float-right btn-outline-primary ml-2",
+  }, "New Category"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("button", {
+    className: "float-right btn-outline-primary sm ml-2",
+    "data-toggle": "tooltip",
+    "data-placement": "top",
+    title: SAILS_LOCALS.userData.userRole !== "admin" && 'you are not authorize',
+    disabled: SAILS_LOCALS.userData.userRole === "admin" ? false : true,
     onClick: function onClick() {
       return setUserCard(true);
     }
-  }, "New User"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
+  }, "New User"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+    className: "btn btn-outline-danger btn-sm ml-2 float-right",
+    href: "/logout"
+  }, "logout"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h1", {
     className: "h3 mb-3"
   }, "Kanban Board"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
     className: "row"
@@ -300,18 +307,7 @@ function HomePage() {
       cx: "5",
       cy: "12",
       r: "1"
-    }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", {
-      className: "dropdown-menu dropdown-menu-right"
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-      className: "dropdown-item",
-      href: "#"
-    }, "Action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-      className: "dropdown-item",
-      href: "#"
-    }, "Another action"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
-      className: "dropdown-item",
-      href: "#"
-    }, "Something else here")))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
+    }))))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h5", {
       className: "card-title"
     }, category.type), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("h6", {
       className: "card-subtitle text-muted"
@@ -347,7 +343,7 @@ function HomePage() {
         },
         className: "rounded-circle",
         alt: "Avatar"
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
+      })), SAILS_LOCALS.userData.seen && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
         className: "btn btn-outline-primary btn-sm",
         href: "#",
         onClick: function onClick() {
@@ -362,7 +358,7 @@ function HomePage() {
         onClick: function onClick() {
           return deleteCard(d.id);
         }
-      }, "Remove")));
+      }, "Remove"))));
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", {
       href: "#",
       onClick: function onClick() {
@@ -795,20 +791,23 @@ function NewCard(props) {
       setShow = _useState2[1];
 
   var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    phoneNo: '',
     email: '',
     password: '',
-    checkbox: false,
-    role: 'user'
+    verified: true,
+    seen: false,
+    userRole: 'user'
   }),
       _useState4 = _slicedToArray(_useState3, 2),
       initialValues = _useState4[0],
       setInitialValues = _useState4[1];
 
   var validationSchema = yup__WEBPACK_IMPORTED_MODULE_1__["object"]({
+    phoneNo: yup__WEBPACK_IMPORTED_MODULE_1__["string"]().required('Required'),
     email: yup__WEBPACK_IMPORTED_MODULE_1__["string"]().required('Required'),
     password: yup__WEBPACK_IMPORTED_MODULE_1__["string"]().required('Required'),
-    checkbox: yup__WEBPACK_IMPORTED_MODULE_1__["boolean"]().required('Required'),
-    role: yup__WEBPACK_IMPORTED_MODULE_1__["string"]().required('Required')
+    seen: yup__WEBPACK_IMPORTED_MODULE_1__["boolean"]().required('Required'),
+    userRole: yup__WEBPACK_IMPORTED_MODULE_1__["string"]().required('Required')
   });
 
   var _useFormik = Object(formik__WEBPACK_IMPORTED_MODULE_2__["useFormik"])({
@@ -816,8 +815,9 @@ function NewCard(props) {
     enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: function onSubmit(values) {
-      console.log(values);
-      $.post('/user/new', _objectSpread({}, values)).then(function (response) {});
+      $.post('/user/new', _objectSpread({}, values)).then(function (response) {
+        props.onModalClose();
+      });
     }
   }),
       handleSubmit = _useFormik.handleSubmit,
@@ -837,7 +837,15 @@ function NewCard(props) {
     style: {
       width: '85%'
     }
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, null, "phoneNo"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
+    type: "text",
+    placeholder: "enter this format 3012055881",
+    name: "phoneNo",
+    value: values.phoneNo,
+    onChange: handleChange
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "text-danger"
+  }, errors.phoneNo ? errors.phoneNo : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, null, "Email"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Control, {
     type: "text",
     placeholder: "Enter email",
     name: "email",
@@ -856,13 +864,12 @@ function NewCard(props) {
   }, errors.password ? errors.password : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Group, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Form"].Label, null, "Allow Access"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
     className: "checkbox ml-4",
     type: "checkbox",
-    id: "vehicle1",
-    name: "checkbox",
+    name: "seen",
     onChange: handleChange,
-    checked: values.checkbox
+    checked: values.seen
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     className: "text-danger"
-  }, errors.checkbox ? errors.checkbox : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
+  }, errors.seen ? errors.seen : null)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_bootstrap__WEBPACK_IMPORTED_MODULE_3__["Button"], {
     variant: "primary",
     type: "submit"
   }, "Submit")))));
